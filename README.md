@@ -11,3 +11,5 @@
 &nbsp;&nbsp;&nbsp;&nbsp;获取白名单列表。</br>
 ->&nbsp;!!whitelist reload</br>
 &nbsp;&nbsp;&nbsp;&nbsp;重新加载白名单。</br>
+
+修改mcwl.py内的变量permission可以修改添加和删除白名单所需的最低权限等级。
