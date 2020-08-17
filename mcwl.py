@@ -63,3 +63,6 @@ def on_info(server, info):
             elif args[1] == 'reload':
                 server.execute('whitelist reload')
                 server.say(display['reload'])
+
+def on_load(server, old):
+	server.add_help_message('!!whitelist, !!wl', '白名单管理')
