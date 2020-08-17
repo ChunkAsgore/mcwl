@@ -2,6 +2,8 @@
 import re
 import json
 
+permission = 2
+
 usage = {
     'tag': '-------------------- \u00A7bMCWL 帮助文档 \u00A7r--------------------',
     'help': '''    添加玩家白名单 \u00A76> \u00A7r!!whitelist add [玩家名]
@@ -12,10 +14,11 @@ usage = {
     'remove': ' 用法 \u00A76> \u00A7r!!whitelist remove [玩家名]'
 }
 display = {
-    'add': '已将{}加入白名单',
-    'remove': '已将{}移出白名单',
-    'list': '白名单列表：{}',
-    'reload': '已重新读取白名单'
+    'add': '\u00A7a已将 \u00A76{} \u00A7a加入白名单',
+    'remove': '\u00A7a已将 \u00A76{} \u00A7a移出白名单',
+    'list': '\u00A76白名单列表 > \u00A7r{}',
+    'reload': '\u00A76已重新读取白名单',
+    'permission': '\u00A7c权限不足'
 }
 
 def on_info(server, info):
@@ -33,16 +36,22 @@ def on_info(server, info):
                     server.say(usage['add'])
                     server.say(usage['tag'])
                 else:
-                    server.execute('whitelist add {}'.format(args[2]))
-                    server.say(display['add'].format(args[2]))
+                    if server.get_permission_level(info) >= permission:
+                        server.execute('whitelist add {}'.format(args[2]))
+                        server.say(display['add'].format(args[2]))
+                    else:
+                        server.say(display['permission'])
             elif args[1] == 'remove':
                 if len(args) == 2:
                     server.say(usage['tag'])
                     server.say(usage['remove'])
                     server.say(usage['tag'])
                 else:
-                    server.execute('whitelist remove {}'.format(args[2]))
-                    server.say(display['remove'].format(args[2]))
+                    if server.get_permission_level(info) >= permission:
+                        server.execute('whitelist remove {}'.format(args[2]))
+                        server.say(display['remove'].format(args[2]))
+                    else:
+                        server.say(display['permission'])
             elif args[1] == 'list':
                 server.execute('whitelist list')
                 players = json.load(open('./server/whitelist.json'))
